@@ -1,20 +1,35 @@
 <script lang="ts" setup>
-import { watchEffect, type PropType } from 'vue';
 
-const props = defineProps({
-    count: Number,
-    handleClick: {
-      type: Function as PropType<() => void>,
-      required: true,
-    },
-})
+type User = {
+    name: string;
+    age: number;
+    status: 'active' | 'deactive';
+    loading: boolean
+}
 
+const props = defineProps<{
+    user: User,
+    handleChangeStatus: (status: 'active' | 'deactive') => void
+}>()
 
 </script>
 
 <template>
     <div>
-        <p>Count in child component: {{ count }}</p>
-        <button @click="props.handleClick">Increase</button>
+        <div v-if="props.user.loading">Loading .... </div>
+        <div v-else>
+            <div v-if="props.user.status === 'active'">
+                <div>name: <span style="font-weight: bold;">{{ props.user.name }}</span></div>
+                <div>age: <span style="font-weight: bold;">{{ props.user.age }}</span></div>
+            </div>
+            <div v-if="props.user.status === 'deactive'">
+                User is blocked
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <button @click="handleChangeStatus('active')" :disabled="user.status === 'active'">Active</button>
+        <button @click="handleChangeStatus('deactive')" :disabled="user.status === 'deactive'">Deactive</button>
     </div>
 </template>

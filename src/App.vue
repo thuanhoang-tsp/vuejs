@@ -1,37 +1,31 @@
 <script setup lang="ts">
-  import { ref, watch, watchEffect } from 'vue';
-  import ChildComponent from './components/ChildComponent.vue';
+import { ref } from 'vue';
+import ChildComponent from './components/ChildComponent.vue';
 
-  const count = ref<number>(0)
-  const valueInput = ref<string>('')
-  const check = ref<boolean>(false)
+type User = {
+  name: string;
+  age: number;
+  status: 'active' | 'deactive';
+  loading: boolean
+};
 
-  const handleClick = () => {
-    count.value++
-  }
+const user = ref<User>({
+  name: 'John',
+  age: 20,
+  status: 'active',
+  loading: false
+});
 
-  const handleOnchageCheck = () => {
-    check.value = !check.value
-  }
+const handleChangeStatus = (status: 'active' | 'deactive') => {
+  user.value.loading = true
 
-  watch(valueInput, (newValue) => {
-    console.log("valueInput changed:", newValue);
-  });
-
-  watch(check, (newCheck) => {
-    console.log("newCheck", newCheck);
-  });
-
-  watchEffect(() => {
-    count.value = count.value * 2
-    console.log(`Count: ${count.value}`)
-})
+  setTimeout(() => {
+    user.value.status = status;
+    user.value.loading = false
+  }, 1500);
+};
 </script>
 
 <template>
-  <div>{{ check ? valueInput : '' }}</div>
-  <input type="text" v-model="valueInput">
-  <button @click="handleOnchageCheck">Show value</button>
-
-  <ChildComponent :count="count" :handleClick="handleClick" />
+  <ChildComponent :user="user" :handleChangeStatus="handleChangeStatus" />
 </template>

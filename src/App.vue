@@ -1,31 +1,24 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import ChildComponent from './components/ChildComponent.vue';
+import MyNavbar from './components/MyNavbar.vue';
 
-type User = {
-  name: string;
-  age: number;
-  status: 'active' | 'deactive';
-  loading: boolean
-};
-
-const user = ref<User>({
-  name: 'John',
-  age: 20,
-  status: 'active',
-  loading: false
-});
-
-const handleChangeStatus = (status: 'active' | 'deactive') => {
-  user.value.loading = true
-
-  setTimeout(() => {
-    user.value.status = status;
-    user.value.loading = false
-  }, 1500);
-};
 </script>
 
 <template>
-  <ChildComponent :user="user" :handleChangeStatus="handleChangeStatus" />
+  <div id="app">
+  <a-layout>
+    <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
+      <MyNavbar />
+    </a-layout-header>
+    <a-layout-content class="layout-content">
+      <router-view></router-view>
+    </a-layout-content>
+  </a-layout>
+  </div>
 </template>
+
+<style scoped>
+  .layout-content {
+  padding: 20px 40px;
+  margin-top: 64px;
+}
+</style>

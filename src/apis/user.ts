@@ -12,4 +12,4 @@ export const fetchTodosByUserId = async (userId: number | null) => {
 export const fetchTodoById = async (id: number) => {
   const response = await fetch(`https://jsonplaceholder.typicode.com/todos/${id}`)
   return response.json()
-}
+} 

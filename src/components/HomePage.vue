@@ -1,26 +1,21 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
+    const isLoggedIn = ref(true)
 
-    const firstName = ref("Tôi là")
-    const lastName = ref("ai")
-
-    const fullName = computed({
-        get(){
-            return firstName.value + ' ' + lastName.value
-        },
-        set(newValue){
-            [firstName.value, lastName.value] = newValue.split(',')
-        }
-    });
-
-    const changeFullName = () => {
-        fullName.value = "Nguyễn Văn, A"
+    const toggleLogin = () => {
+        isLoggedIn.value = !isLoggedIn.value
     }
+
+    // v-if v-else: Loại bỏ/xóa phần tử ra khỏi DOM => Không render trong DOM nên tối ưu DOM nhưng chậm
+    // v-show: Nhanh hơn, phù hợp cho việc ẩn/hiện nội dung, Chỉ là ẩn hiện phần tử (ví dụ như display: none) => Có thể bị chiếm diện tích không cần thiết trong DOM
 </script>
 
 <template>
-    <p>fullName: {{ fullName }}</p>
-    <p>firstName: {{ firstName }}</p>
-    <p>lastName: {{ lastName }}</p>
-    <button @click="changeFullName">Click</button>
+    <h1 v-if="isLoggedIn">Chào mừng người dùng đã đăng nhập</h1>
+    <h1 v-else>Chào mừng khách</h1>
+
+    <button @click="toggleLogin">{{ !isLoggedIn ? 'Login' : 'Logout' }}</button>
 </template>
+
+<style>
+</style>
